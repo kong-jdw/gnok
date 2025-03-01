@@ -1,3 +1,28 @@
+# JDW Kong frontend test
+
+## Notes
+
+## Minor issues
+
+- There is an extraneous comma in `tsconfig.json` on [line 27](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.json#L27)
+- The readme says "[Don't treat the mock as gospel"](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L12) but then says "[Pixel-perfect implementation](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L33)" which is a bit contradictory.
+
+## A yarn about pnpm, vim, and ale, oh my
+
+I mentioned to A.G. and R.F. that I had issues with pnpm a few years ago... I was wrong! I made an offhand comment to them about how it was weird pnpm requires you to commit dependencies to your repo and I got a strange look from R.F. (fair). Turns out I wasn't remembering pnpm, I was remembering Yarn's plug'n'play setup which DOES recommend you commit dependencies which is a whole... choice. I figured this out because my normal editing environment (Vim) has a plugin which runs linters (Ale) and it doesn't handle the way pnpm installs dependencies correctly. As I was researching the issue, I ran into [a comment I made two years ago](https://github.com/dense-analysis/ale/issues/2970#issuecomment-815300052) and well, that jogged my memory.
+
+In any case, the issue with Ale is that it tries to run the eslint executable directly from the `node_modules` folder and that errors out with `The package "eslint-plugin-promise" was not found` (you can reproduce this yourself by trying to run `node_modules/.pnpm/eslint@9.11.1_jiti@1.21.0/node_modules/eslint/bin/eslint.js src/App.vue`, though if you have eslint-plugin-promise globally installed it won't error probably). The simplest solution was to just add the following to my Vim configuration:
+
+```
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_javascript_eslint_executable = 'pnpm'
+let g:ale_javascript_eslint_options = 'lint'
+```
+
+Which... I didn't want to do globally as my personal projects all use npm and don't have this issue, so that's why `.lvimrc` ([local vimrc](https://github.com/embear/vim-localvimrc)) got added to `.gitignore`.
+
+---
+
 # Welcome
 
 Please take the time to read through all of the sections below; we want you to do great! :rocket:

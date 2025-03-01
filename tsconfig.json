@@ -2,7 +2,7 @@
   "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
@@ -24,7 +24,7 @@
       "@/*": [
         "src/*"
       ]
-    },
+    }
   },
   "include": [
     "src/**/*.ts",
