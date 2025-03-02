@@ -8,6 +8,6 @@
     "dist",
     "mocks",
     "src/**/*.spec.ts",
-    "src/**/*.cy.ts",
-  ],
+    "src/**/*.cy.ts"
+  ]
 }

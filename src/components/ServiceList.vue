@@ -1,16 +1,13 @@
 <script lang="ts" setup>
 import ServiceCard from '@components/ServiceCard.vue'
+import type { Service } from '@/composables/useServices'
 
-defineProps({
-  services: {
-    type: Array,
-    default: () => [],
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-})
+interface Props {
+  services: Service[],
+  loading: boolean,
+}
+
+defineProps<Props>()
 </script>
 
 <template>

@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import useServices from '@/composables/useServices'
+import type { Service } from '@/composables/useServices'
 import PageTitle from '@components/PageTitle.vue'
 import SearchInput from '@components/SearchInput.vue'
 import CreateServiceButton from '@components/CreateServiceButton.vue'
 import ServiceList from '@components/ServiceList.vue'
 
-const { services, loading } = useServices()
+const { services, loading }: { services: Service[], loading: boolean } = useServices()
 </script>
 
 <template>

@@ -5,9 +5,11 @@
 ## Minor issues
 
 - There is an extraneous comma in `tsconfig.json` on [line 27](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.json#L27).
+- There are two extraneous commas in `tsconfig.build.json` on [lines 11 and 12](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.build.json#L11-L12)
 - The readme says "[Don't treat the mock as gospel"](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L12) but then says "[Pixel-perfect implementation](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L33)" which is a bit contradictory. I think the intent was the former so I went with that primarily.
 - The mock uses font Inter but the 2024 Kong brand guidelines recommends Roboto. I decided to use Inter for this test.
 - The mock uses colors outside the 2024 Kong brand guidelines (though to be fair, so does the real app). I mostly followed the mock, but leaned on Kong brand guidelines several times.
+- The project typescript isn't setup to use SFCs (without importing `defineComponent` anyways) and I strongly prefer that, so I used the same `env.d.ts` that [this reasonably decent example repo](https://github.com/mutoe/vue3-realworld-example-app/tree/master) uses. [Lots of people have this issue](https://stackoverflow.com/questions/54839057/vscode-showing-cannot-find-module-ts-error-for-vue-import-while-compiling-doe) and I'm slightly shocked that the [documentation](https://vuejs.org/guide/typescript/overview#usage-in-single-file-components) implies that you should be able to do it without any extra configuration.
 
 ## A yarn about pnpm, vim, and ale, oh my
 
