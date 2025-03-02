@@ -1,0 +1,44 @@
+// breakpoints straight from tailwind because it works well
+$screen-sm: 40rem;
+$screen-md: 48rem;
+$screen-lg: 64rem;
+$screen-xl: 80rem;
+$screen-xxl: 96rem;
+
+@mixin sm {
+  @media (width >= #{$screen-sm}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (width >= #{$screen-md}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (width >= #{$screen-lg}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (width >= #{$screen-xl}) {
+    @content;
+  }
+}
+
+@mixin xxl {
+  @media (width >= #{$screen-xxl}) {
+    @content;
+  }
+}
+
+// dark mode
+@mixin dark {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+

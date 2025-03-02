@@ -1,92 +1,51 @@
-<template>
-  <div class="service-catalog">
-    <h1>Service Catalog</h1>
-    <input
-      v-model="searchQuery"
-      class="search-input"
-      data-testid="search-input"
-      placeholder="Search services"
-    >
-    <ul
-      v-if="services.length"
-      class="catalog"
-    >
-      <li
-        v-for="service in services"
-        :key="service.id"
-        class="service"
-      >
-        <div>
-          <p>
-            {{ service.name }}
-          </p>
-          <p>{{ service.description }}</p>
-        </div>
-      </li>
-    </ul>
-    <div
-      v-else
-      data-testid="no-results"
-    >
-      No services
-    </div>
-  </div>
-</template>
-
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
 import useServices from '@/composables/useServices'
+import PageTitle from '@components/PageTitle.vue'
+import SearchInput from '@components/SearchInput.vue'
+import CreateServiceButton from '@components/CreateServiceButton.vue'
+import ServiceList from '@components/ServiceList.vue'
 
-export default defineComponent({
-  name: 'ServiceCatalog',
-  setup() {
-    // Import services from the composable
-    const { services, loading } = useServices()
-
-    // Set the search string to a Vue ref
-    const searchQuery = ref('')
-
-    return {
-      services,
-      loading,
-      searchQuery,
-    }
-  },
-})
+const { services, loading } = useServices()
 </script>
 
-<style lang="scss" scoped>
-.service-catalog {
-  margin: 2rem auto;
-  max-width: 1366px;
-  padding: 0 20px;
-}
+<template>
+  <div class="header-search">
+    <PageTitle />
+    <div class="search">
+      <SearchInput />
+      <CreateServiceButton />
+    </div>
+  </div>
 
-.catalog {
+  <ServiceList
+    :loading="loading"
+    :services="services"
+  />
+</template>
+
+<style lang="scss" scoped>
+@use '@css/spacing.scss';
+@use '@css/media.scss';
+
+.header-search {
+  align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
-  list-style: none;
-  margin: 20px 0 0 0;
+  gap: spacing.$space-md;
+  justify-content: space-between;
+  margin-bottom: spacing.$space-md;
 }
 
-.service {
-  border: 1px solid #999;
-  border-radius: 10px;
-  margin: 6px;
-  padding: 8px 16px;
-  width: 200px;
+.search {
+  align-items: center;
+  background-color: red;
+  display: flex;
+  gap: spacing.$space-md;
+  justify-content: flex-end;
+  width: 100%;
 
-  p:first-of-type {
-    color: #333;
-    font-weight: 700;
+  @include media.md {
+    max-width: 50%;
   }
-
-  p {
-    color: #666;
-  }
-}
-
-input {
-  padding: 8px 4px;
 }
 </style>

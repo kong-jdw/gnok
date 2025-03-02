@@ -4,8 +4,10 @@
 
 ## Minor issues
 
-- There is an extraneous comma in `tsconfig.json` on [line 27](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.json#L27)
-- The readme says "[Don't treat the mock as gospel"](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L12) but then says "[Pixel-perfect implementation](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L33)" which is a bit contradictory.
+- There is an extraneous comma in `tsconfig.json` on [line 27](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.json#L27).
+- The readme says "[Don't treat the mock as gospel"](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L12) but then says "[Pixel-perfect implementation](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L33)" which is a bit contradictory. I think the intent was the former so I went with that primarily.
+- The mock uses font Inter but the 2024 Kong brand guidelines recommends Roboto. I decided to use Inter for this test.
+- The mock uses colors outside the 2024 Kong brand guidelines (though to be fair, so does the real app). I mostly followed the mock, but leaned on Kong brand guidelines several times.
 
 ## A yarn about pnpm, vim, and ale, oh my
 

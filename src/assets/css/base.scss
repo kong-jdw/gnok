@@ -1,0 +1,20 @@
+@use 'colors' as c;
+@use 'media';
+
+html {
+  background-color: white;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0 auto;
+}
+
+@include media.dark {
+    html {
+        background-color: black;
+    }
+}
+
