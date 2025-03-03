@@ -11,7 +11,7 @@ const { services, loading }: { services: Service[], loading: boolean } = useServ
 
 <template>
   <div class="header-search">
-    <PageTitle />
+    <PageTitle>Service Hub</PageTitle>
     <div class="search">
       <SearchInput />
       <CreateServiceButton />

@@ -1,8 +1,12 @@
 # JDW Kong frontend test
 
-## Notes
+## Minor issues with my code
 
-## Minor issues
+- I don't love how I organized the css files. I think that for ease of use things that can reasonably be `@use`d anywhere should be in a lib directory while the ones that have styles and can only be included in `index.scss` should be more clearly important. I didn't clean this up due to time constraints.
+- I used a `hover` variable set by `@mouseover` instead of `:hover` which isn't always a good idea. Normally I would have used [group and group-hover](https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-parent-state) from Tailwind to solve the issues with hovering in parent/child components but I was asked not to use Tailwind. Implementing it manually (and cleanly) takes more time.
+- Normally the avatar and avatar list would be their own components.
+
+## Minor issues with the project as given
 
 - There is an extraneous comma in `tsconfig.json` on [line 27](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.json#L27).
 - There are two extraneous commas in `tsconfig.build.json` on [lines 11 and 12](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.build.json#L11-L12)
@@ -10,6 +14,7 @@
 - The mock uses font Inter but the 2024 Kong brand guidelines recommends Roboto. I decided to use Inter for this test.
 - The mock uses colors outside the 2024 Kong brand guidelines (though to be fair, so does the real app). I mostly followed the mock, but leaned on Kong brand guidelines several times.
 - The project typescript isn't setup to use SFCs (without importing `defineComponent` anyways) and I strongly prefer that, so I used the same `env.d.ts` that [this reasonably decent example repo](https://github.com/mutoe/vue3-realworld-example-app/tree/master) uses. [Lots of people have this issue](https://stackoverflow.com/questions/54839057/vscode-showing-cannot-find-module-ts-error-for-vue-import-while-compiling-doe) and I'm slightly shocked that the [documentation](https://vuejs.org/guide/typescript/overview#usage-in-single-file-components) implies that you should be able to do it without any extra configuration.
+- Project word doc says to use "In Progress" but mock says to use "In progress". I decided to trust the designer.
 
 ## A yarn about pnpm, vim, and ale, oh my
 

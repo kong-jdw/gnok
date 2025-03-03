@@ -36,6 +36,7 @@ nav {
   padding: 1.375rem;
   position: sticky;
   top: 0;
+  z-index: 1000;
 }
 
 .right-nav {

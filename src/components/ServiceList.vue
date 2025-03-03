@@ -22,7 +22,6 @@ defineProps<Props>()
     <ServiceCard
       v-for="service in services"
       :key="service.id"
-      class="card"
       :service="service"
     />
   </div>
@@ -45,7 +44,7 @@ defineProps<Props>()
   gap: spacing.$space-md;
 }
 
-.card {
+.card-list > * {
   width: 100%;
 
   @include media.md {

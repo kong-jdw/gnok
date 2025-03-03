@@ -1,5 +1,6 @@
 <template>
   <div>
-    Page title
+    <h1><slot name="default" /></h1>
+    <slot name="description" />
   </div>
 </template>
