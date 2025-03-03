@@ -2,9 +2,9 @@
 import { ref, computed } from 'vue'
 import type { Service } from '@/composables/useServices'
 import { PUBLISHED, UNPUBLISHED, IN_PROGRESS } from '@/assets/constants/app'
-import ServiceCardHeader from '@components/ServiceCardHeader.vue'
-import ServiceCardMetrics from '@components/ServiceCardMetrics.vue'
-import ServiceCardDevelopers from '@components/ServiceCardDevelopers.vue'
+import ServiceCardHeader from '@/components/service-card/ServiceCardHeader.vue'
+import ServiceCardMetrics from '@/components/service-card/ServiceCardMetrics.vue'
+import ServiceCardDevelopers from '@/components/service-card/ServiceCardDevelopers.vue'
 
 interface Props {
   service: Service,

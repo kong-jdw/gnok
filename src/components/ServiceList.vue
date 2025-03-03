@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ServiceCard from '@components/ServiceCard.vue'
+import ServiceCard from '@/components/service-card/ServiceCard.vue'
 import type { Service } from '@/composables/useServices'
 
 interface Props {
