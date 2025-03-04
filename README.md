@@ -1,8 +1,50 @@
 # JDW Kong frontend test
 
+Thank you for taking the time to consider my code test! I enjoyed building it out and I hope you enjoy seeing what I put together.
+
+## Screenshots
+
+### Light mode
+
 ![light](https://github.com/user-attachments/assets/3ecbdfe9-7b8d-493b-ae99-2cae74a6569d)
 
+### Dark mode
+
 ![dark](https://github.com/user-attachments/assets/a649d3f6-0ae8-48a0-9f7d-48c56e7167e6)
+
+### Responsive card list
+
+![Mar-04-2025 12-00-33](https://github.com/user-attachments/assets/8ffdada4-4733-400d-9ef0-12411bdbcbd0)
+
+### Responsive sevice page
+
+![Mar-04-2025 11-59-15](https://github.com/user-attachments/assets/7731133c-2825-47bc-af24-250a189ac1e7)
+
+## Considerations
+
+### External libraries
+
+Based on my conversation with A.G. and R.F. I was under the impression that I shouldn't use any external libraries for this code test with the exception of an icon library. If I was using other libraries I would have included:
+
+- [Tailwindcss](https://tailwindcss.com/) for easier and faster styling
+- [date-fns](https://date-fns.org/) for creating the "2 days ago" thing
+- Something for debounce and throttle. Maybe it would be better to implement yourself than including Lodash for the thousandth time. Not sure. It would be nice to have something for throttling network requests from search though.
+
+### Sort
+
+We talked about how to sort the cards. Depending on use case we might want different sort algorithms (and you might want the user to choose), but for now I decided to just sort on the service title. I could see good arguments for sorting on `updated_at`, any of the metrics, or even frequency of access/usage. I _don't_ think there's a good argument for sorting based on created date.
+
+### State
+
+I didn't put a lot of things into Pinia, mostly due to time constraints. I think there's a world where you keep a global list of all services in state. This would make it so you can track pagination across routing and searching. Also it's not unreasonable to keep search results in state as well for similar reasons. That, and you could have search results not interfere with your complete list.
+
+### "Not configured with runtime yet"
+
+The relationship between `service.configured`, `service.published`, and `service.metrics` is confusing at best. There are four possible states between `configured` and `published` but the mock only shows three (published, unpublished, and in progress). Additionally it's not terribly clear why an unpublished service could ever show metrics. It's also not clear why something unpublished can have metrics but something that's in progress can't? I ended up trying to follow the mock but I'm not sure I got the logic exactly right.
+
+### Typescript
+
+I have not use typescript professionally before. I've used it in my personal projects, but I haven't had to build/maintain anything with a team using it. So, I'm not entirely sure what the best practices are for long term maintenance. My instinct is that you probably want to keep type definitions as close to where they're used as possible (hence adding them into `useServices.ts`). I suspect with larger files/codebases you might separate definitions into their own files, but for something this small that's probably unnecessary.
 
 ## Features to implement if I had more time
 
@@ -12,6 +54,13 @@
 - The pagination doesn't stay on screen in a nice way when you paginate. The design likely needs to change to handle this. Alternatively maaaaybe you could scroll to bottom on click?
 - Avatar reaaaally should be its own component
 - Allow dark mode to be saved in state and restored with localstorage instead of just relying on browser preference.
+- More and better unit testing, I'll call out a few specific things that deserve testing below.
+
+### Tests that should exist
+
+- `ServiceCard.vue` needs some testing to ensure it renders content appropriately when data is missing and that its user interactions work (e.g. mailto links and route on click).
+- `useServices.ts` should be robustly tested despite its simplicity. It is indirectly tested by `ServiceCatalog.spec.ts` but it deserves its own suite since it's so critical.
+- `SearchInput.vue` should have a test making sure events are emitted as expected and that controlling it with clicks and "Enter" work.
 
 ## Minor issues with my code
 
@@ -19,18 +68,10 @@
 - I used a `hover` variable set by `@mouseover` instead of `:hover` which isn't always a good idea. Normally I would have used [group and group-hover](https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-parent-state) from Tailwind to solve the issues with hovering in parent/child components but I was asked not to use Tailwind. Implementing it manually (and cleanly) takes more time.
 - Normally the avatar and avatar list would be their own components.
 - The `+X` avatar badge has the wrong cursor and is clickable. I... am going to let that exist.
+- My 404 page is... not a real 404 page. Also I don't have any route guards for errors
+- I didn't implement the "2 days ago" thing in the service details because... it's annoying without date-fns (though very doable with native `Date` functions, but still)
 
-## Minor issues with the project as given
-
-- There is an extraneous comma in `tsconfig.json` on [line 27](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.json#L27).
-- There are two extraneous commas in `tsconfig.build.json` on [lines 11 and 12](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.build.json#L11-L12)
-- The readme says "[Don't treat the mock as gospel"](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L12) but then says "[Pixel-perfect implementation](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L33)" which is a bit contradictory. I think the intent was the former so I went with that primarily.
-- The mock uses font Inter but the 2024 Kong brand guidelines recommends Roboto. I decided to use Inter for this test.
-- The mock uses colors outside the 2024 Kong brand guidelines (though to be fair, so does the real app). I mostly followed the mock, but leaned on Kong brand guidelines several times.
-- The project typescript isn't setup to use SFCs (without importing `defineComponent` anyways) and I strongly prefer that, so I used the same `env.d.ts` that [this reasonably decent example repo](https://github.com/mutoe/vue3-realworld-example-app/tree/master) uses. [Lots of people have this issue](https://stackoverflow.com/questions/54839057/vscode-showing-cannot-find-module-ts-error-for-vue-import-while-compiling-doe) and I'm slightly shocked that the [documentation](https://vuejs.org/guide/typescript/overview#usage-in-single-file-components) implies that you should be able to do it without any extra configuration.
-- Project word doc says to use "In Progress" but mock says to use "In progress". I decided to trust the designer.
-
-## A yarn about pnpm, vim, and ale, oh my
+### A yarn about pnpm, vim, and ale, oh my
 
 I mentioned to A.G. and R.F. that I had issues with pnpm a few years ago... I was wrong! I made an offhand comment to them about how it was weird pnpm requires you to commit dependencies to your repo and I got a strange look from R.F. (fair). Turns out I wasn't remembering pnpm, I was remembering Yarn's plug'n'play setup which DOES recommend you commit dependencies which is a whole... choice. I figured this out because my normal editing environment (Vim) has a plugin which runs linters (Ale) and it doesn't handle the way pnpm installs dependencies correctly. As I was researching the issue, I ran into [a comment I made two years ago](https://github.com/dense-analysis/ale/issues/2970#issuecomment-815300052) and well, that jogged my memory.
 
@@ -44,201 +85,22 @@ let g:ale_javascript_eslint_options = 'lint'
 
 Which... I didn't want to do globally as my personal projects all use npm and don't have this issue, so that's why `.lvimrc` ([local vimrc](https://github.com/embear/vim-localvimrc)) got added to `.gitignore`.
 
----
+## Minor issues with the project as given
 
-# Welcome
-
-Please take the time to read through all of the sections below; we want you to do great! :rocket:
-
-Feel free to reach out to your recruiting contact with any questions or concerns.
-
-## Goal
-
-Modify the provided Vue 3 app to match [this mock](https://www.figma.com/file/swzJVL624G434CVdWi3FLv/Core-UI-Team-Project) as closely as possible while utilizing best-practices to improve the codebase and implement the functional requirements outlined below.
-
-- The provided exercise files are a starting point and they have room for improvement; feel free to modify
-- Don't treat the mock as gospel -- if you see things that don't make sense, ask questions or implement what you think is right
-- In the exercise you are utilizing a local API; however, code your submission as if you are using a production API, accounting for typical issues that can occur
+- There is an extraneous comma in `tsconfig.json` on [line 27](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.json#L27).
+- There are two extraneous commas in `tsconfig.build.json` on [lines 11 and 12](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/tsconfig.build.json#L11-L12)
+- The readme says "[Don't treat the mock as gospel"](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L12) but then says "[Pixel-perfect implementation](https://github.com/Kong/konnect-team-interview-frontend-exercise/blob/main/README.md?plain=1#L33)" which is a bit contradictory. I think the intent was the former so I went with that primarily.
+- The mock uses font Inter but the 2024 Kong brand guidelines recommends Roboto. I decided to use Inter for this test.
+- The mock uses colors outside the 2024 Kong brand guidelines (though to be fair, so does the real app). I mostly followed the mock, but leaned on Kong brand guidelines several times.
+- The project typescript isn't setup to use SFCs (without importing `defineComponent` anyways) and I strongly prefer that, so I used the same `env.d.ts` that [this reasonably decent example repo](https://github.com/mutoe/vue3-realworld-example-app/tree/master) uses. [Lots of people have this issue](https://stackoverflow.com/questions/54839057/vscode-showing-cannot-find-module-ts-error-for-vue-import-while-compiling-doe) and I'm slightly shocked that the [documentation](https://vuejs.org/guide/typescript/overview#usage-in-single-file-components) implies that you should be able to do it without any extra configuration.
+- Project word doc says to use "In Progress" but mock says to use "In progress". I decided to trust the designer.
+- `vitest.setup.ts` includes a plugin for `findTestId` which relies on [find](https://test-utils.vuejs.org/api/#find) but the documentation suggests you should use find for things that don't exist and [get](https://test-utils.vuejs.org/api/#get) for things that do exist. So I added `getTestId` and used it in one of my tests
 
 ### Links
 
 - Figma Mock: <https://www.figma.com/file/swzJVL624G434CVdWi3FLv/Core-UI-Team-Project>
 - Acceptance criteria: <https://docs.google.com/document/d/1AIXTtrEMZBnfoLYXDlBYiEB-BTk7XNt2QlY7jWYdPv0/edit?tab=t.0#heading=h.8hapmwf98sj>
 
-## Functional Requirements
-
-- [Vue 3](https://vuejs.org/) and TypeScript
-- User should be able to view the name, a brief description, versions available, and other info shown in the mock for services
-- User should be able to search for services ([See search endpoint details below](#searching-the-services-endpoint))
-- User should be able to click on a service to view more details
-- User should be able to paginate through services (client-side implementation)
-- The create Service Package button doesn't have to be operable -- interacting with this elements could do nothing, could be fully implemented (stretch goal), or something in between
-- Please update the `README` in the project with a section to describe your design considerations, assumptions, and trade-offs made during this exercise. Also feel free to include any notes about your submission
-
-## Additional Considerations (if applicable)
-
-- The UI should be responsive and look great at different browser viewport sizes
-- Pixel-perfect implementation
-- Routing and views (e.g. navigating to a given service from its card)
-- State management with [Pinia](https://pinia.vuejs.org/)
-- [Component Tests and/or Unit Tests](#run-component-and-unit-tests-with-vitest-and-optionally-vue-test-utils)
-- Other items covered in your Panel 1 interview
-
-## Evaluation
-
-We will review your code for quality and your ability to talk through it, how you approach the UI, and what tradeoffs you make. Specifically we'll be looking at the following:
-
-- How closely your implementation matches the design along with the other [Functional Requirements](#functional-requirements)
-- Code quality, including appropriate componentization and modularity
-- TypeScript usage
-- Coding (and Vue) best-practices
-- The project should pass type checking and build successfully
-- How you dedicate the allotted time to focus on your strengths
-- Test coverage, if applicable
-
-## How to submit the project
-
-You have up to a week to complete the exercise, but we don't expect you to spend more than a few hours on it.
-
-When it's ready, please send your recruiter a link to the source code in a GitHub repository (no Pull Requests).
-
 ---
 
-## Project Setup
-
-### Clone the repository
-
-```sh
-git clone git@github.com:Kong/konnect-team-interview-frontend-exercise.git
-```
-
-### pnpm
-
-This repository uses [`pnpm`](https://pnpm.io) rather than `npm` or `yarn`. [See here for instructions on installing pnpm](https://pnpm.io/installation).
-
-### Install dependencies
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-Start the backend which serves the `services` API:
-
-```sh
-pnpm dev:server
-```
-
-In a separate terminal, start the Vue app:
-
-```sh
-pnpm dev:ui
-```
-
-## Searching the services endpoint
-
-The local API is available at `http://localhost:4001` after running `pnpm dev:server`.
-
-Searching this endpoint is supported by passing a query string with a value to search with (case-insensitive): `/api/services?q={value}`
-
-**Note**: The search endpoint evaluates all property values as a `string` to determine a match.
-
-### Searchable properties
-
-The search endpoint is configured to search the following fields for each service within the JSON response:
-
-```ts
-{
-  id: string;
-  name: string;
-  description: string;
-  type: string;
-}
-```
-
-### Search example
-
-If I wanted to search for a service with "dogs" in the service name, I would pass the name in the query string:
-
-```sh
-GET: /api/services?q=dogs
-```
-
-### Linting and fixing the code
-
-#### ESLint
-
-```sh
-# Run the linter
-pnpm lint
-
-# Fix linting errors
-pnpm lint:fix
-```
-
-#### Stylelint
-
-```sh
-# Run stylelint
-pnpm stylelint
-
-# Fix stylelint errors
-pnpm stylelint:fix
-```
-
-### Run Component and Unit Tests with [Vitest](https://vitest.dev/) and optionally [Vue Test Utils](https://test-utils.vuejs.org/)
-
-Component and unit test files must be located in the `/src/` directory and have a filename format of `*.spec.ts`. In the starter project, see `src/components/ServiceCatalog.spec.ts` for an example.
-
-```sh
-# Run tests
-pnpm test
-
-# or run the tests in the Vitest UI
-pnpm test:open
-```
-
-### Build and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Preview your built application
-
-First, you'll need to build the app
-
-```sh
-pnpm build
-```
-
-Next, run the API server
-
-```sh
-pnpm dev:server
-```
-
-Now run the `preview` command
-
-```sh
-pnpm preview
-```
-
-### Committing Changes
-
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
-At Kong, we utilize [Conventional Commits](https://www.conventionalcommits.org/) in all of our repositories. [Commitizen](https://github.com/commitizen/cz-cli) can be used to to help build and enforce commit messages.
-
-If you're unfamiliar with conventional commits, it is **recommended** to use the following command in order to create your commits:
-
-```sh
-# Stage your changes
-git add -A
-
-# Trigger the commitizen CLI to help compose your commit message
-pnpm commit
-```
-
-This will trigger the Commitizen interactive prompt for building your commit message.
+Mmmm, I may have sliiiightly gone over the time constraints just by typing this ~~book~~ readme.

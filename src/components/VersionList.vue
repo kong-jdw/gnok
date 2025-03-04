@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { defineProps } from 'vue'
 import type { ServiceVersion, ServiceType } from '@/composables/useServices'
 
 interface Props {

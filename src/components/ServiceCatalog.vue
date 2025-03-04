@@ -12,9 +12,11 @@ const searchString = ref<string>('')
 const {
   services,
   loading,
+  error,
 }: {
   services: Service[],
   loading: boolean,
+  error: boolean,
 } = useServices(searchString)
 
 const handleSearch = (search: string): void => {
@@ -45,6 +47,7 @@ const handleSearch = (search: string): void => {
   </div>
 
   <ServiceList
+    :error="error"
     :loading="loading"
     :services="services"
   />

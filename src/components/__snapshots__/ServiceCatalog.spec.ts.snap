@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ServiceCatalog > renders 1`] = `
+"<div data-v-7999d149="" class="header-search">
+  <page-title-stub data-v-7999d149=""></page-title-stub>
+  <div data-v-7999d149="" class="search">
+    <search-input-stub data-v-7999d149=""></search-input-stub>
+    <create-service-button-stub data-v-7999d149=""></create-service-button-stub>
+  </div>
+</div>
+<service-list-stub data-v-7999d149="" services="" loading="true" error="false"></service-list-stub>"
+`;

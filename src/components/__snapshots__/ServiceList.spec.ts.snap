@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ServiceCatalog > renders empty 1`] = `
+"<div data-v-9afa7982="" class="no-results" data-testid="no-results">
+  <h3 data-v-9afa7982=""> No services found </h3>
+  <anonymous-stub data-v-9afa7982="" icon="fa-solid:sad-cry"></anonymous-stub>
+</div>"
+`;
+
+exports[`ServiceCatalog > renders error 1`] = `
+"<div data-v-9afa7982="" class="error" data-testid="error">
+  <h3 data-v-9afa7982=""> There was an error loading your services, please refresh and try again. </h3>
+  <anonymous-stub data-v-9afa7982="" icon="hugeicons:sad-dizzy"></anonymous-stub>
+</div>"
+`;
+
+exports[`ServiceCatalog > renders loading 1`] = `
+"<div data-v-9afa7982="" class="loading" data-testid="loading">
+  <loading-dots-stub data-v-9afa7982=""></loading-dots-stub>
+</div>"
+`;
+
+exports[`ServiceCatalog > renders normally 1`] = `
+"<div data-v-9afa7982="">
+  <div data-v-9afa7982="" class="card-list">
+    <service-card-stub data-v-9afa7982="" service="[object Object]"></service-card-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;

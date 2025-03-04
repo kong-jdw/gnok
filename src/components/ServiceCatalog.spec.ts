@@ -1,13 +1,12 @@
-import { vi, describe, it, expect } from 'vitest'
+import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { setActivePinia, createPinia } from 'pinia'
 import ServiceCatalog from './ServiceCatalog.vue'
-import servicesData from '../../mocks/services'
+import SearchInput from '@/components/SearchInput.vue'
 
-// Mock the axios module for fetching API services
-const mockedResponses = new Map()
-  .set('/api/services', vi.fn(() => ({
-    data: servicesData,
-  })))
+const mocks = vi.hoisted(() => ({
+  get: vi.fn(),
+}))
 
 vi.mock('axios', async () => {
   const actual: any = await vi.importActual('axios')
@@ -15,30 +14,37 @@ vi.mock('axios', async () => {
     default: {
       ...actual.default,
       // Mock get request responses
-      get: (url: string) => vi.fn().mockResolvedValue(mockedResponses.get(url) !== undefined
-        ? mockedResponses.get(url)()
-        : undefined)(),
+      get: mocks.get,
     },
   }
 })
 
-// Example component test for ServiceCatalog.vue
 describe('ServiceCatalog', () => {
-  it('shows the search input', async () => {
-    // No `mockedResponses` modification needed; just use the default mocked response
-    const wrapper = mount(ServiceCatalog)
-
-    expect(wrapper.findTestId('search-input').isVisible()).toBe(true)
+  beforeEach(() => {
+    mocks.get.mockReset()
+    setActivePinia(createPinia())
   })
 
-  it('properly handles no services returned from the API', async () => {
-    // Provide a custom `mockedResponses` response payload instead of using the default mocked response
-    mockedResponses.get('/api/services').mockReturnValue({
-      data: [],
-    })
+  it('renders', async () => {
+    const wrapper = mount(ServiceCatalog, { shallow: true })
 
-    const wrapper = mount(ServiceCatalog)
+    expect(wrapper.html()).toMatchSnapshot()
+  })
 
-    expect(wrapper.findTestId('no-results').isVisible()).toBe(true)
+  it('fetches services on mount', async () => {
+    mount(ServiceCatalog, { shallow: true })
+
+    expect(mocks.get).toHaveBeenCalledTimes(1)
+    expect(mocks.get).toHaveBeenLastCalledWith('/api/services')
+  })
+
+  it('fetches new services when search changes', async () => {
+    const wrapper = mount(ServiceCatalog, { shallow: true })
+    expect(mocks.get).toHaveBeenCalledTimes(1)
+
+    const search = wrapper.findComponent(SearchInput)
+    await search.vm.$emit('search', 'test')
+    expect(mocks.get).toHaveBeenCalledTimes(2)
+    expect(mocks.get).toHaveBeenLastCalledWith('/api/services?q=test')
   })
 })

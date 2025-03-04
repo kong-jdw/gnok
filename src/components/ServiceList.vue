@@ -4,31 +4,32 @@ import { Icon } from '@iconify/vue'
 import ServiceCard from '@/components/service-card/ServiceCard.vue'
 import LoadingDots from '@/components/LoadingDots.vue'
 import type { Service } from '@/composables/useServices'
+import { CARDS_PER_PAGE } from '@/assets/constants/app'
 
 interface Props {
   services: Service[],
   loading: boolean,
+  error: boolean,
 }
 
 const props = defineProps<Props>()
 
-const visible = 9
 const page = ref(0)
 
 const maxPage = computed((): number => {
-  return Math.floor(props.services.length / visible)
+  return Math.floor(props.services.length / CARDS_PER_PAGE)
 })
 
 const visibleServices = computed((): Service[] => {
-  return props.services.slice(page.value * visible, (page.value + 1) * visible)
+  return props.services.slice(page.value * CARDS_PER_PAGE, (page.value + 1) * CARDS_PER_PAGE)
 })
 
 const showingFrom = computed((): number => {
-  return page.value * visible + 1
+  return page.value * CARDS_PER_PAGE + 1
 })
 
 const showingTo = computed((): number => {
-  const end = (page.value + 1) * visible
+  const end = (page.value + 1) * CARDS_PER_PAGE
   return props.services.length > end ? end : props.services.length
 })
 
@@ -47,8 +48,19 @@ const next = (): void => {
 
 <template>
   <div
-    v-if="loading"
+    v-if="error"
+    class="error"
+    data-testid="error"
+  >
+    <h3>
+      There was an error loading your services, please refresh and try again.
+    </h3>
+    <Icon icon="hugeicons:sad-dizzy" />
+  </div>
+  <div
+    v-else-if="loading"
     class="loading"
+    data-testid="loading"
   >
     <LoadingDots />
   </div>
@@ -65,8 +77,9 @@ const next = (): void => {
     </div>
 
     <div
-      v-if="services.length > visible"
+      v-if="services.length > CARDS_PER_PAGE"
       class="pagination-controls"
+      data-testid="pagination-controls"
     >
       <div
         class="pager"
@@ -103,7 +116,7 @@ const next = (): void => {
     <h3>
       No services found
     </h3>
-    <Icon icon="hugeicons:sad-dizzy" />
+    <Icon icon="fa-solid:sad-cry" />
   </div>
 </template>
 
@@ -137,6 +150,7 @@ const next = (): void => {
   }
 }
 
+.error,
 .no-results {
   align-items: center;
   display: flex;

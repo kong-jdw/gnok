@@ -11,8 +11,19 @@ const DataTestIdPlugin = (wrapper: any) => {
     return wrapper.find(dataSelector)
   }
 
+  /**
+   * Get element by `data-testid` selector
+   * @param {string} dataTestid The `data=testid` attribute of the element
+   * @example expect(wrapper.findTestId('search-input').isVisible()).toBe(true)
+   */
+  const getTestId = (dataTestid: string): any => {
+    const dataSelector = `[data-testid="${dataTestid}"]`
+    return wrapper.get(dataSelector)
+  }
+
   return {
     findTestId,
+    getTestId,
   }
 }
 
