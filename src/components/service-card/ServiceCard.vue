@@ -71,7 +71,6 @@ const hover = ref(false)
   background-color: white;
   border-radius: 2px;
   box-shadow: rgba(c.$dark-gray, 0.1) 5px 5px 5px 0px;
-  box-sizing: border-box;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -87,6 +86,7 @@ const hover = ref(false)
 
   .content {
     flex-grow: 1;
+    margin-bottom: spacing.$space-md;
   }
 
   .footer {

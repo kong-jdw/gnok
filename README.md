@@ -5,6 +5,7 @@
 - I don't love how I organized the css files. I think that for ease of use things that can reasonably be `@use`d anywhere should be in a lib directory while the ones that have styles and can only be included in `index.scss` should be more clearly important. I didn't clean this up due to time constraints.
 - I used a `hover` variable set by `@mouseover` instead of `:hover` which isn't always a good idea. Normally I would have used [group and group-hover](https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-parent-state) from Tailwind to solve the issues with hovering in parent/child components but I was asked not to use Tailwind. Implementing it manually (and cleanly) takes more time.
 - Normally the avatar and avatar list would be their own components.
+- The `+X` avatar badge has the wrong cursor and is clickable. I... am going to let that exist.
 
 ## Minor issues with the project as given
 

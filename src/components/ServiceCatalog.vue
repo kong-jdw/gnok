@@ -11,7 +11,16 @@ const { services, loading }: { services: Service[], loading: boolean } = useServ
 
 <template>
   <div class="header-search">
-    <PageTitle>Service Hub</PageTitle>
+    <PageTitle>
+      <template #default>
+        Service Hub
+      </template>
+      <template #description>
+        Organize services, manage and track versioning, and API service documentation.
+        <a href="https://konghq.com">Learn more</a>.
+      </template>
+    </PageTitle>
+
     <div class="search">
       <SearchInput />
       <CreateServiceButton />
@@ -26,7 +35,6 @@ const { services, loading }: { services: Service[], loading: boolean } = useServ
 
 <style lang="scss" scoped>
 @use '@css/spacing.scss';
-@use '@css/media.scss';
 
 .header-search {
   align-items: flex-start;
@@ -35,18 +43,13 @@ const { services, loading }: { services: Service[], loading: boolean } = useServ
   gap: spacing.$space-md;
   justify-content: space-between;
   margin-bottom: spacing.$space-md;
-}
 
-.search {
-  align-items: center;
-  background-color: red;
-  display: flex;
-  gap: spacing.$space-md;
-  justify-content: flex-end;
-  width: 100%;
-
-  @include media.md {
-    max-width: 50%;
+  .search {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    gap: spacing.$space-md;
+    justify-content: flex-end;
   }
 }
 </style>

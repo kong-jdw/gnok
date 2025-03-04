@@ -13,7 +13,7 @@
 body {
   color: c.$paragraph-light;
   font-family: Inter, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
 
@@ -42,10 +42,12 @@ h3 {
 }
 
 a {
-  color: c.$bright-gray;
+  color: rgba(c.$primary-blue, 0.8);
   text-decoration: none;
+  transition: color 0.1s ease-in;
 
   &:hover {
+    color: rgba(c.$primary-blue, 1);
     text-decoration: underline;
   }
 }

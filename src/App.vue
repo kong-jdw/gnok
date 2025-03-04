@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import AppHeader from '@/components/AppHeader.vue'
+import CreateServiceModal from '@/components/CreateServiceModal.vue'
 </script>
 
 <template>
@@ -7,6 +8,7 @@ import AppHeader from '@/components/AppHeader.vue'
   <main>
     <router-view />
   </main>
+  <CreateServiceModal />
 </template>
 
 <style lang="scss" scoped>
