@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import useServices from '@/composables/useServices'
 import type { Service } from '@/composables/useServices'
 import PageTitle from '@/components/PageTitle.vue'
@@ -6,7 +7,23 @@ import SearchInput from '@/components/SearchInput.vue'
 import CreateServiceButton from '@/components/CreateServiceButton.vue'
 import ServiceList from '@/components/ServiceList.vue'
 
-const { services, loading }: { services: Service[], loading: boolean } = useServices()
+const searchString = ref<string>('')
+
+const {
+  services,
+  loading,
+}: {
+  services: Service[],
+  loading: boolean,
+} = useServices(searchString)
+
+const handleSearch = (search: string): void => {
+  if (search) {
+    searchString.value = search
+  } else {
+    searchString.value = ''
+  }
+}
 </script>
 
 <template>
@@ -22,7 +39,7 @@ const { services, loading }: { services: Service[], loading: boolean } = useServ
     </PageTitle>
 
     <div class="search">
-      <SearchInput />
+      <SearchInput @search="handleSearch" />
       <CreateServiceButton />
     </div>
   </div>

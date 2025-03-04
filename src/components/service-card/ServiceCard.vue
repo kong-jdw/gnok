@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import type { Service } from '@/composables/useServices'
 import { PUBLISHED, UNPUBLISHED, IN_PROGRESS } from '@/assets/constants/app'
 import ServiceCardHeader from '@/components/service-card/ServiceCardHeader.vue'
@@ -25,11 +26,17 @@ const status = computed(() => {
 })
 
 const hover = ref(false)
+
+const router = useRouter()
+const goToService = (): void => {
+  router.push(`/${service.id}`)
+}
 </script>
 
 <template>
   <div
     class="card"
+    @click="goToService"
     @mouseleave="hover = false"
     @mouseover="hover = true"
   >

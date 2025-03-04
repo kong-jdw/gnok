@@ -1,5 +1,18 @@
 # JDW Kong frontend test
 
+![light](https://github.com/user-attachments/assets/3ecbdfe9-7b8d-493b-ae99-2cae74a6569d)
+
+![dark](https://github.com/user-attachments/assets/a649d3f6-0ae8-48a0-9f7d-48c56e7167e6)
+
+## Features to implement if I had more time
+
+- Giving the user a way to reset after a search is executed. Right now you have to refresh or clear out the input field which isn't a good experience.
+- Track pagination of services in state instead of in the component. That would allow you to keep track of what you're looking at even after page navigation.
+- The search field doesn't focus as nicely as I would like when you don't click exactly in the input box. Easy to fix but a bit fiddly
+- The pagination doesn't stay on screen in a nice way when you paginate. The design likely needs to change to handle this. Alternatively maaaaybe you could scroll to bottom on click?
+- Avatar reaaaally should be its own component
+- Allow dark mode to be saved in state and restored with localstorage instead of just relying on browser preference.
+
 ## Minor issues with my code
 
 - I don't love how I organized the css files. I think that for ease of use things that can reasonably be `@use`d anywhere should be in a lib directory while the ones that have styles and can only be included in `index.scss` should be more clearly important. I didn't clean this up due to time constraints.

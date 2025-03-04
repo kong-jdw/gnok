@@ -1,12 +1,18 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import { Icon } from '@iconify/vue'
 
 const focus = ref(false)
 const field = ref()
+const searchString = ref('')
 
-const submit = () => {
+const emit = defineEmits<{
+  search: [searchString: string]
+}>()
+
+const submit = (): void => {
   field.value.blur()
+  emit('search', searchString.value)
 }
 
 const handleKeyEvent = ({ key }: { key: string }): void => {
@@ -29,6 +35,7 @@ const handleKeyEvent = ({ key }: { key: string }): void => {
     />
     <input
       ref="field"
+      v-model="searchString"
       placeholder="Search"
       @blur="focus = false"
       @focus="focus = true"

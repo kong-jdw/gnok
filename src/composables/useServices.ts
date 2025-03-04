@@ -1,4 +1,5 @@
-import { ref, onBeforeMount } from 'vue'
+import { ref, watch, toValue } from 'vue'
+import type { Ref } from 'vue'
 import axios from 'axios'
 
 export interface ServiceMetrics {
@@ -23,7 +24,7 @@ export interface ServiceVersion {
   updated_at: string,
 }
 
-const enum ServiceType {
+export const enum ServiceType {
   REST,
   HTTP,
 }
@@ -39,24 +40,29 @@ export interface Service {
   metrics?: ServiceMetrics,
 }
 
-export default function useServices(): any {
+export default function useServices(queryString: Ref<string>): any {
   const services = ref<Service[]>([])
   const error = ref<boolean>(false)
   const loading = ref<boolean>(false)
 
   const getServices = async (): Promise<any> => {
     try {
+      services.value = []
       loading.value = true
       error.value = false
 
-      // TODO remove the timeout stuff to stop simulating delay
-      function timeout(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-      }
-      await timeout(1000)
+      // useful for simulating a delay
+      // function timeout(ms: number) {
+      //   return new Promise(resolve => setTimeout(resolve, ms))
+      // }
+      // await timeout(1000)
 
-      const { data }: { data: Service[] } = await axios.get('/api/services')
-      services.value = data
+      const url = toValue(queryString)
+        ? `/api/services?q=${encodeURIComponent(toValue(queryString))}`
+        : '/api/services'
+
+      const { data }: { data: Service[] } = await axios.get(url)
+      services.value = data.sort(({ name: a }, { name: b }) => a.localeCompare(b))
     } catch (err: any) {
       services.value = []
       error.value = true
@@ -65,13 +71,11 @@ export default function useServices(): any {
     }
   }
 
-  onBeforeMount(async (): Promise<void> => {
-    // Fetch services from the API
-    await getServices()
-    loading.value = false
-  })
+  watch(queryString, () => {
+    // FIXME `watchEffect` _should_ work here but it doesn't?
+    getServices()
+  }, { immediate: true })
 
-  // Return stateful data
   return {
     services,
     loading,

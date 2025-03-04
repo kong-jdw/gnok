@@ -13,25 +13,26 @@ import { Icon } from '@iconify/vue'
     <div class="right-nav">
       <router-link to="/">
         <Icon icon="healthicons:people" />
-        Organization
+        <span class="label">Organization</span>
       </router-link>
 
       <router-link to="/">
         <Icon icon="ion:settings-sharp" />
-        Settings
+        <span class="label">Settings</span>
       </router-link>
 
       <router-link to="/">
         <div class="avatar">
           <Icon icon="simple-icons:kong" />
         </div>
-        Kong Kardashian
+        <span class="label">Kong Kardashian</span>
       </router-link>
     </div>
   </nav>
 </template>
 
 <style lang="scss" scoped>
+@use '@css/media.scss';
 @use '@css/spacing.scss';
 @use '@css/colors.scss' as c;
 
@@ -53,6 +54,13 @@ nav {
     gap: spacing.$space-xs;
     &:hover {
       color: rgba(c.$bright-gray, 1);
+    }
+
+    .label {
+      display: none;
+      @include media.md {
+        display: inline;
+      }
     }
   }
 
